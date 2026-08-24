@@ -17,8 +17,33 @@ def compute_stats(nums: List[int]) -> Tuple[float, float, int]:
     - median: for an even count, average the two middle values after sorting.
     - mode: the most frequent value; on a tie, the SMALLEST tied value.
     """
-    # TODO
-    raise NotImplementedError
+
+    mean = sum(nums) / len(nums)
+
+    sorted_nums = sorted(nums)
+    n = len(sorted_nums)
+
+    if n % 2 == 1:
+        median = float(sorted_nums[n // 2])
+    else:
+        median = (
+            sorted_nums[n // 2 - 1] + sorted_nums[n // 2]
+        ) / 2.0
+
+    counts = {}
+
+    for num in nums:
+        counts[num] = counts.get(num, 0) + 1
+
+    max_count = max(counts.values())
+
+    mode = min(
+        num
+        for num, count in counts.items()
+        if count == max_count
+    )
+
+    return mean, median, mode
 
 
 def main() -> int:

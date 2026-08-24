@@ -24,6 +24,43 @@ func computeStats(nums []int) (float64, float64, int) {
 	var mean float64
 	var median float64
 	var mode int
+	var sum int64
+
+	for _, num := range nums {
+		sum += int64(num)
+	}
+
+	mean = float64(sum) / float64(len(nums))
+
+	sortedCopy := make([]int, len(nums))
+    copy(sortedCopy, nums)
+    sort.Ints(sortedCopy)
+
+    n := len(sortedCopy)
+
+    if n%2 == 1 {
+        median = float64(sortedCopy[n/2])
+    } else {
+        median = float64(sortedCopy[n/2-1]+sortedCopy[n/2]) / 2.0
+    }
+
+    counts := make(map[int]int)
+
+    for _, num := range nums {
+        counts[num]++
+    }
+
+    mode = sortedCopy[0]
+    maxCount := 0
+
+    for num, count := range counts {
+        if count > maxCount || (count == maxCount && num < mode) {
+            maxCount = count
+            mode = num
+        }
+    }
+
+	
 	return mean, median, mode
 }
 
@@ -45,6 +82,6 @@ func main() {
 	fmt.Printf("Mean: %.2f\n", mean)
 	fmt.Printf("Median: %.2f\n", median)
 	fmt.Printf("Mode: %d\n", mode)
-	_ = sort.Ints // keep import used even before TODO is filled in
+	
 	os.Exit(0)
 }

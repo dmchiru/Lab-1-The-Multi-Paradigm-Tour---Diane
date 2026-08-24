@@ -42,6 +42,46 @@ int main(int argc, char *argv[]) {
     double median = 0.0;
     int mode = 0;
 
+    long long sum = 0;   //acumula la suma
+
+    for (int i = 0; i < n; i++) {
+        sum += nums [i];
+    }
+
+    mean = (double)sum / n;
+
+    qsort(nums, n, sizeof(int), compare_ints);
+
+    if (n % 2 == 1) {
+        median = nums[n / 2];
+    } else {
+        median = ((double)nums [n / 2 - 1] + nums[n / 2]) / 2.0;
+    }
+
+    mode = nums[0];
+
+    int best_count = 1;
+    int current_count = 1;
+
+    for (int i = 1; i < n; i++) {
+
+    if (nums[i] == nums[i - 1]) {
+        current_count++;
+    } else {
+
+        if (current_count > best_count) {
+            best_count = current_count;
+            mode = nums[i - 1];
+        }
+
+        current_count = 1;
+    }}
+
+
+    if (current_count > best_count) {
+        mode = nums[n-1];
+    }
+
     printf("Mean: %.2f\n", mean);
     printf("Median: %.2f\n", median);
     printf("Mode: %d\n", mode);
